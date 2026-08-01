@@ -1,8 +1,13 @@
 # 📡 Telecom Customer Churn Prediction & Retention Analytics
 
-📌 Project Overview
+> End-to-end data science project covering SQL-based data cleaning, exploratory analysis, machine learning model development, and a Power BI retention dashboard — built to turn raw telecom data into an actionable customer retention strategy.
 
-Developed an end-to-end Customer Churn Analytics & Prediction solution for a telecom company by integrating SQL, Python, Machine Learning, and Power BI. The project transforms raw customer data into actionable business insights and predicts customers at high risk of churning, enabling proactive retention strategies.
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-Data%20Cleaning-orange?logo=mysql&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power%20BI-Dashboard-yellow?logo=powerbi&logoColor=black)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-Model%20Building-red?logo=scikitlearn&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Complete-brightgreen)
+
 ---
 
 ## 📋 Table of Contents
@@ -134,16 +139,25 @@ Once the model was trained, its native feature importances confirmed (and sharpe
 
 ## 🤖 Model Development
 
-Two models were evaluated for the churn classification task:
+Two models were built and independently hyperparameter-tuned before being compared head-to-head:
 
-| Model | Role |
+| Model | Tuning Method |
 |---|---|
-| Logistic Regression | Baseline model |
-| **Random Forest** | **Final selected model** (after tuning) |
+| Logistic Regression | `GridSearchCV`, 5-fold cross-validation |
+| **Random Forest** | `RandomizedSearchCV` — 100 sampled combinations, 5-fold cross-validation, across tree count, depth, min samples per split/leaf, feature selection strategy, and bootstrap sampling |
 
-**Why Random Forest was chosen:** at the same recall (~80%), Random Forest delivered higher precision (57% vs. 54%) than the tuned Logistic Regression baseline — a better balance of catching churners without over-flagging loyal customers.
+Each model's own best configuration was then evaluated on a held-out test set:
 
-**Hyperparameter tuning:** `RandomizedSearchCV` with 5-fold cross-validation was used to search 100 combinations across tree count, depth, min samples per split/leaf, feature selection strategy, and bootstrap sampling — optimizing jointly for recall, precision, and F1.
+| Metric (Churn class) | Logistic Regression | Random Forest |
+|---|---|---|
+| Precision | 0.53 | **0.57** |
+| Recall | 0.80 | 0.80 |
+| F1-Score | 0.64 | **0.67** |
+| Accuracy | 0.74 | **0.78** |
+
+*(Figures come straight from each model's own tuned classification report. The two test sets have a slightly different churner count — 347 vs. 331 — since each tuning run held out its own split, but both are evaluated on the same total sample size of 1,202.)*
+
+**Why Random Forest was chosen:** both models were tuned to essentially the same recall (~80%) — so they catch churners at the same rate. The real difference is *how many false alarms each one raises to get there*. Logistic Regression flags 242 loyal customers as false positives to hit that recall; Random Forest reaches the same recall with only 198 false positives. That gap carries straight through to precision (0.57 vs. 0.53), F1-score (0.67 vs. 0.64), and overall accuracy (0.78 vs. 0.74) — Random Forest wins on every metric except recall, where the two are tied. In practical terms: for the same number of at-risk customers caught, Random Forest sends far fewer unnecessary retention offers to customers who were never actually at risk — which is exactly what the business cares about.
 
 ---
 
