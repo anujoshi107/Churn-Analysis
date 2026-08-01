@@ -232,6 +232,7 @@ This page runs the trained model against a **batch of newly-joined customers** �
 **Important distinction:** `Total_Revenue` and `Total_Charges` appear in this table purely as **business context** — to size the revenue at risk per customer — not as inputs the model used to generate the prediction. Feeding them into the model itself would have caused the leakage explained above; surfacing them *after* prediction, for reporting only, is safe and useful.
 
 Together, the two pages let stakeholders move from "what happened and why" to "who's likely to leave next and what's it worth" — without touching the underlying model.
+check commit
 
 ---
 
