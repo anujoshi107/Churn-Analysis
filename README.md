@@ -63,23 +63,23 @@ This pipeline ensured every downstream insight and prediction was built on a rel
 
 Exploratory analysis surfaced the strongest, most actionable drivers of churn:
 
-### 1. Contract Type — the strongest predictor of churn ⭐⭐⭐⭐⭐
-Month-to-Month customers churn substantially more than One-Year or Two-Year customers. Long-term commitment is the single biggest lever for retention.
+1. **Contract Type — the strongest predictor of churn ⭐⭐⭐⭐⭐**  
+   Month-to-Month customers churn substantially more than One-Year or Two-Year customers. Long-term commitment is the single biggest lever for retention.
 
-### 2. Fiber Optic customers churn the most ⭐⭐⭐⭐⭐
-Despite being the most popular internet service, Fiber Optic has the highest churn rate — pointing to pricing, network quality, or service satisfaction issues within this segment.
+2. **Fiber Optic customers churn the most ⭐⭐⭐⭐⭐**  
+   Despite being the most popular internet service, Fiber Optic has the highest churn rate — pointing to pricing, network quality, or service satisfaction issues within this segment.
 
-### 3. Experience drives churn more than price ⭐⭐⭐⭐⭐
-**Competitor-related reasons** are the single biggest churn driver, followed by **attitude/dissatisfaction** — together outweighing price-related churn. Customers are leaving for a better experience, not just a better deal.
+3. **Experience drives churn more than price ⭐⭐⭐⭐⭐**  
+   **Competitor-related reasons** are the single biggest churn driver, followed by **attitude/dissatisfaction** — together outweighing price-related churn. Customers are leaving for a better experience, not just a better deal.
 
-### 4. The first few months are the highest-risk period ⭐⭐⭐⭐
-Customers with shorter tenure churn more frequently, making early-lifecycle engagement critical to long-term retention.
+4. **The first few months are the highest-risk period ⭐⭐⭐⭐**  
+   Customers with shorter tenure churn more frequently, making early-lifecycle engagement critical to long-term retention.
 
-### 5. Higher monthly charges correlate with higher churn ⭐⭐⭐⭐
-Premium-tier customers churn more, suggesting the perceived value doesn't yet match the price for some segments.
+5. **Higher monthly charges correlate with higher churn ⭐⭐⭐⭐**  
+   Premium-tier customers churn more, suggesting the perceived value doesn't yet match the price for some segments.
 
-### 6. Value-added services reduce churn ⭐⭐⭐⭐
-Customers subscribed to **Online Security** retain significantly better than those without it.
+6. **Value-added services reduce churn ⭐⭐⭐⭐**  
+   Customers subscribed to **Online Security** retain significantly better than those without it.
 
 | Business Parameter | Influence on Churn |
 |---|---|
@@ -171,31 +171,29 @@ Each model's own best configuration was then evaluated on a held-out test set:
 
 **Why recall was prioritized:** churn prediction is a cost-sensitive problem — the cost of *missing* a customer who churns (false negative) is far higher than the cost of offering a retention incentive to someone who would have stayed anyway (false positive). Optimizing for 80% recall means the business can proactively intervene with 4 out of 5 at-risk customers before they leave, while the 57% precision keeps retention spend targeted rather than blanket.
 
----
+Although recall was the primary optimisation objective, precision was also carefully considered because a low precision would result in retention offers being sent to many customers who were not actually at risk of churning, increasing campaign costs. Therefore, the final model was selected based on the best balance between Recall, Precision, and F1-score while aligning with the business objective of maximising customer retention at a reasonable operational cost.
+
+This approach enables the business to proactively identify high-risk customers, prioritise retention efforts more effectively, and make data-driven decisions that improve customer lifetime value while controlling the cost of retention campaigns.
 
 ## 🎯 Recommended Retention Strategy
 
-> **📌 The trade-off behind this strategy — Recall vs. Precision:** the model was deliberately tuned to prioritize **Recall (80%)** over Precision (57%), because in churn, a false negative (missing a customer who leaves) is far costlier than a false positive (offering an incentive to someone who'd have stayed anyway). Practically, this means the strategy below is built to **cast a wide, proactive net** across at-risk segments rather than waiting for near-certain signals — accepting some "wasted" retention spend as the price of catching the majority of actual churners before they leave.
+1. **Migrate Month-to-Month customers onto longer contracts.**  
+   `Contract` is the single dominant feature in the model (~0.38 importance — more than every other feature combined). Even a modest shift of Month-to-Month customers onto One-Year plans, via targeted discounts, bundled perks, or loyalty pricing, should move the churn needle more than any other lever available.
 
-With that trade-off in mind, six segment-level actions deliver the highest return, ranked by the strength of their underlying driver:
+2. **Fix the Fiber Optic experience, don't just discount it.**  
+   Fiber Optic is the most popular internet type *and* the highest-churning one — meaning price cuts alone won't hold these customers. Investigate network reliability and service quality directly, and route Fiber customers into a dedicated retention and support track.
 
-**1. Migrate Month-to-Month customers onto longer contracts.**
-`Contract` is the single dominant feature in the model (~0.38 importance — more than every other feature combined). Even a modest shift of Month-to-Month customers onto One-Year plans, via targeted discounts, bundled perks, or loyalty pricing, should move the churn needle more than any other lever available.
+3. **Treat competitor-driven churn as a service problem, not a pricing problem.**  
+   Competitor-related reasons and general dissatisfaction outrank price as churn causes. This means the fix is competitive benchmarking and faster issue resolution — not blanket discounting, which erodes margin without addressing why customers are actually leaving.
 
-**2. Fix the Fiber Optic experience, don't just discount it.**
-Fiber Optic is the most popular internet type *and* the highest-churning one — meaning price cuts alone won't hold these customers. Investigate network reliability and service quality directly, and route Fiber customers into a dedicated retention and support track.
+4. **Give extra attention to customers in their first 6 months.**  
+   New customers are the most likely to leave. If we welcome them properly, check in with them early, and help them get comfortable using the service, most of them will stick around. It's always easier and cheaper to keep a new customer happy than to win back one who has already decided to leave.
 
-**3. Treat competitor-driven churn as a service problem, not a pricing problem.**
-Competitor-related reasons and general dissatisfaction outrank price as churn causes. This means the fix is competitive benchmarking and faster issue resolution — not blanket discounting, which erodes margin without addressing why customers are actually leaving.
+5. **Bundle Online Security, Value Deal, and Premium Support into core plans.**  
+   All three rank in the model's top six most important features — customers with these attached are structurally stickier. Making them default (or a free-trial upsell) rather than an opt-in add-on should lift retention across the board, not just for one segment.
 
-**4. Give extra attention to customers in their first 6 months.**
-New customers are the most likely to leave. If we welcome them properly, check in with them early, and help them get comfortable using the service, most of them will stick around. It's always easier and cheaper to keep a new customer happy than to win back one who has already decided to leave.
-
-**5. Bundle Online Security, Value Deal, and Premium Support into core plans.**
-All three rank in the model's top six most important features — customers with these attached are structurally stickier. Making them default (or a free-trial upsell) rather than an opt-in add-on should lift retention across the board, not just for one segment.
-
-**6. Re-justify value for high monthly-charge customers before they compare elsewhere.**
-Higher bills correlate with higher churn, pointing to a perceived value gap at the premium tier. Rather than discounting, pair these customers with visible added value — priority support, exclusive perks — timed just ahead of their renewal window.
+6. **Re-justify value for high monthly-charge customers before they compare elsewhere.**  
+   Higher bills correlate with higher churn, pointing to a perceived value gap at the premium tier. Rather than discounting, pair these customers with visible added value — priority support, exclusive perks — timed just ahead of their renewal window.
 
 ---
 
