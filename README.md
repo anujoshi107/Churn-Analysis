@@ -203,9 +203,9 @@ The final model output was operationalized into a **two-page Power BI dashboard*
 
 ### Page 1 — Churn Analysis (Summary)
 
-<div align="center">
-  <img src="./images/summary.png" alt="Churn Analysis Summary Dashboard" width="800"/>
-</div>
+<p align="center">
+  <img src="images/summary.png" alt="Churn Analysis Summary Dashboard" width="800"/>
+</p>
 
 A full diagnostic view of the existing customer base:
 
@@ -219,9 +219,9 @@ A full diagnostic view of the existing customer base:
 
 ### Page 2 — Churn Analysis (Prediction)
 
-<div align="center">
-  <img src="./images/predictions.png" alt="Churn Analysis Prediction Dashboard" width="800"/>
-</div>
+<p align="center">
+  <img src="images/predictions.png" alt="Churn Analysis Prediction Dashboard" width="800"/>
+</p>
 
 This page runs the trained model against a **batch of newly-joined customers** — individuals with no historical churn label yet — to generate forward-looking risk scores instead of just describing the past:
 
